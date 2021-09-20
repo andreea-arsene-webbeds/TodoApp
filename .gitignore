@@ -1,0 +1,7 @@
+
+.vs/slnx.sqlite
+*.dll
+*.pdb
+*.cache
+obj/
+bin/

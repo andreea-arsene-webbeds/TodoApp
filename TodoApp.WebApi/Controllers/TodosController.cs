@@ -9,7 +9,6 @@ using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
 using HttpGetAttribute = Microsoft.AspNetCore.Mvc.HttpGetAttribute;
 using System.Collections.Generic;
 using System;
-using Microsoft.AspNetCore.Cors;
 
 namespace TodoApp.WebApi.Controllers
 {
@@ -73,6 +72,33 @@ namespace TodoApp.WebApi.Controllers
             }
 
             return Ok(response.Data);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Put(TodoModel newTodo)
+        {
+            Response<TodoModel> response = await _todoLogicHandler.Update(newTodo);
+
+            if (response.StatusCode == (int)HttpStatusCode.NoContent)
+            {
+                return Ok(response.Data);
+            }
+
+            return BadRequest(response.ErrorMessage);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            Response<TodoModel> response = await _todoLogicHandler.Delete(id);
+
+            if (response.StatusCode == (int)HttpStatusCode.NoContent)
+            {
+
+                return Ok(response.Data);
+            }
+
+            return BadRequest(response.ErrorMessage);
         }
     }
 }
